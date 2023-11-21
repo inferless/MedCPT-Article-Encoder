@@ -1,1 +1,1 @@
-# medicalarticle
+# MedCPT-Article-Encoder
