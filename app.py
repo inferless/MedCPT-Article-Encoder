@@ -9,10 +9,11 @@ class InferlessPythonModel:
 
     def infer(self, inputs):
         articles = inputs["articles"]
+        nested_articles = [articles[i:i + 2] for i in range(0, len(articles), 2)]
         embeds = None
         with torch.no_grad():
             encoded = self.tokenizer(
-                articles,
+                nested_articles,
                 truncation=True,
                 padding=True,
                 return_tensors="pt",
