@@ -1,11 +1,16 @@
+import os
+os.environ["HF_HUB_ENABLE_HF_TRANSFER"]='1'
+from huggingface_hub import snapshot_download
 import torch
 from transformers import AutoTokenizer, AutoModel
 
 
 class InferlessPythonModel:
     def initialize(self):
-        self.tokenizer = AutoTokenizer.from_pretrained("ncbi/MedCPT-Article-Encoder")
-        self.model = AutoModel.from_pretrained("ncbi/MedCPT-Article-Encoder",device_map="cuda")
+        model_id = "ncbi/MedCPT-Article-Encoder"
+        snapshot_download(repo_id=model_id,allow_patterns=["*.safetensors"])
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        self.model = AutoModel.from_pretrained(model_id,device_map="cuda")
 
     def infer(self, inputs):
         articles = inputs["articles"]
